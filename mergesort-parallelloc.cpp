@@ -1,3 +1,15 @@
+/*	Merge sort, using pthreads
+ *	Elisa Danthinne, under the direction of Dr. Kaeli
+ *	17 December 2016
+ *
+ *	sorts a randomly populated (0-99) matrix of size 'dimension' using 'nthreads' pthreads and merge sort techniques
+ *	uses recursion
+ *	*not currently functional - passing a struct into pthread_create callback function
+ *
+ *
+ *
+ * */
+
 #include <iostream>
 #include <pthread.h>
 #include <cstdlib>

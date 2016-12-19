@@ -3,7 +3,7 @@
  *	17 December 2016
  *
  * 	sorts a randomly populated (0-99) matrix of size 'dimension' using 'nthreads' pthreads and merge sort techniques
- * 	does NOT use recursion
+ * 	uses recursion
  * 	*please note: number of elements in the matrix must be divisible by both 2 and by the number of pthreads used
  *
  * */
@@ -19,7 +19,7 @@ int marray[dimension];
 int warray[dimension];
 int nthreads = 8;
 
-void split_merge(int[], int, int[]);
+void split_merge(int[], int, int, int[]);
 void merge(int[], int, int, int, int[]);
 void populate_array(int[], int);
 void duplicate_array(int[], int[], int);
@@ -110,7 +110,7 @@ void *parallel_sort_section(void *x)
 		}
 
 		duplicate_array(section, wsection, size);
-		split_merge(section, size, wsection);
+		split_merge(section, 0, size, wsection);
 
 		j=0;
 		for(int i=begin; i<end; i++){
@@ -119,35 +119,17 @@ void *parallel_sort_section(void *x)
 		}
 	}
 
-void split_merge(int warray[], int dimension, int marray[])
+void split_merge(int B[], int begin, int end, int A[]) 
 	{
-		for(int i=0; i<dimension; i=i+2){
-			int a = warray[i];
-			int b = warray[i+1];
-			if(a > b){
-				warray[i] = b;
-				warray[i+1] = a;
-			}
-		}
+		if(end-begin < 2)
+			return;
+		int middle = (end + begin) / 2;
 
-		int sections = dimension/2;
-		int size = 2;
-
-		while(sections > 1){
-			for(int i=0; i<(sections/2); i++){
-				int begin = i*2*size;
-				int middle = i*2*size + size;
-				int end = middle + size;
-				merge(warray, begin, middle, end, marray);
-			}
-
-			for(int i=0; i<dimension; i++){
-				warray[i] = marray[i];
-			}
-			size = 2*size;
-			sections = sections/2;
-		}
-	}
+		split_merge(A, begin, middle, B);
+		split_merge(A, middle, end, B);
+		merge(B, begin, middle, end, A);
+		
+	}	
 
 void merge(int A[], int begin, int middle, int end, int B[]) 
 	{
