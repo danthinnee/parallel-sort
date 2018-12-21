@@ -8,6 +8,6 @@ Sorts a randomly-populated (0-99) integer array using merge sort techniques and 
 
 **mergesort-parallelloc.cpp** (not currently functional) uses local variables and recursion to sort an array of 1024 integers.
 
-**mergesort-seq.cpp** sequentiall sorts an array of 1024 integers.
+**mergesort-seq.cpp** sequentially sorts an array of 1024 integers.
 
 
